@@ -19,11 +19,11 @@ public class Order {
             unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",
             nullable = false)
     private User owner;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "film_id",
             nullable = false)
     private Film film;

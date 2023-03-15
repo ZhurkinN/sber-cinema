@@ -56,7 +56,7 @@ public class User {
             fetch = FetchType.LAZY)
     private Set<Order> orders;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id",
             nullable = false)
     private Role role;

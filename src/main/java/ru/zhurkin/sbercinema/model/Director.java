@@ -32,6 +32,7 @@ public class Director {
     @Column(name = "position")
     private String position;
 
-    @ManyToMany(mappedBy = "directors")
+    @ManyToMany(mappedBy = "directors",
+            fetch = FetchType.LAZY)
     private Set<Film> films;
 }

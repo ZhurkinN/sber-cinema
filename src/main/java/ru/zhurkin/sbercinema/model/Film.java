@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -37,10 +38,11 @@ public class Film {
     @JoinTable(name = "film_directors",
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "director_id", referencedColumnName = "id", nullable = false))
-    private Set<Director> directors;
+    private Set<Director> directors = new HashSet<>();
 
     @OneToMany(mappedBy = "film",
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private Set<Order> orders;
 
 }
