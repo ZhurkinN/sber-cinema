@@ -13,13 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
-
-    @Id
-    @Column(name = "id",
-            unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends GenericEntity {
 
     @Column(name = "login",
             unique = true)

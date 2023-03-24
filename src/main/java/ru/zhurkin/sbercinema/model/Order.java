@@ -12,13 +12,8 @@ import java.sql.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends GenericEntity {
 
-    @Id
-    @Column(name = "id",
-            unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",
             nullable = false)
@@ -36,6 +31,5 @@ public class Order {
 
     @Column(name = "is_purchased")
     private Boolean isPurchased;
-
 
 }
