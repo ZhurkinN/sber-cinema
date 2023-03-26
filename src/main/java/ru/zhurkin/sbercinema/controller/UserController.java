@@ -26,7 +26,8 @@ public class UserController extends GenericController<User> {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserController(UserRepository userRepository,
+                          RoleRepository roleRepository) {
         super(userRepository);
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;

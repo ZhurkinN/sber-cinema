@@ -37,6 +37,6 @@ public class Film extends GenericEntity {
     @OneToMany(mappedBy = "film",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<Order> orders;
+    private Set<Order> orders = new HashSet<>();
 
 }

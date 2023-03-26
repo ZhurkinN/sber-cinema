@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -28,5 +29,5 @@ public class Director extends GenericEntity {
 
     @ManyToMany(mappedBy = "directors",
             fetch = FetchType.LAZY)
-    private Set<Film> films;
+    private Set<Film> films = new HashSet<>();
 }
