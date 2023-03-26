@@ -1,16 +1,13 @@
 package ru.zhurkin.sbercinema.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.List;
+import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "role")
 public class Role {
 
@@ -20,14 +17,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",
+            unique = true)
     private String title;
 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "role",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private List<User> users;
 }

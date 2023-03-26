@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.zhurkin.sbercinema.model.enums.RoleEnum;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -43,16 +45,12 @@ public class User extends GenericEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "created_when")
-    private Date createdWhen;
-
     @OneToMany(mappedBy = "owner",
             fetch = FetchType.LAZY)
-    private Set<Order> orders;
+    private Set<Order> orders = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id",
-            nullable = false)
-    private Role role;
+    @JoinColumn(name = "role_id")
+    private Role role = RoleEnum.VIEWER.getRole();
 
 }

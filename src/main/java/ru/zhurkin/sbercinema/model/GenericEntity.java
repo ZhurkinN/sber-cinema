@@ -20,9 +20,9 @@ public class GenericEntity {
     protected Long id;
 
     @Column(name = "created_when")
-    protected LocalDateTime createdWhen;
+    protected LocalDateTime createdWhen = LocalDateTime.now();
 
     @Column(name = "created_by")
-    protected String createdBy;
+    protected String createdBy = "Nikita Zhurkin";
 
 }
