@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.zhurkin.sbercinema.dto.request.AddFilmDirectorDTO;
 import ru.zhurkin.sbercinema.model.Director;
 import ru.zhurkin.sbercinema.model.Film;
-import ru.zhurkin.sbercinema.repository.DirectorRepository;
-import ru.zhurkin.sbercinema.repository.FilmRepository;
+import ru.zhurkin.sbercinema.service.FilmService;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Tag(name = "Фильмы",
@@ -19,43 +17,26 @@ import java.util.Set;
 @RequestMapping("/api/v1/films")
 public class FilmController extends GenericController<Film> {
 
-    private final FilmRepository filmRepository;
-    private final DirectorRepository directorRepository;
+    private final FilmService filmService;
 
-    public FilmController(FilmRepository filmRepository,
-                          DirectorRepository directorRepository) {
-        super(filmRepository);
-        this.filmRepository = filmRepository;
-        this.directorRepository = directorRepository;
+    public FilmController(FilmService filmService) {
+        super(filmService);
+        this.filmService = filmService;
     }
 
     @PostMapping("/addDirector")
     @Operation(description = "Добавить режисера к фильму", method = "addDirector")
     public ResponseEntity<Film> addDirector(@RequestBody AddFilmDirectorDTO dto) {
 
-        Optional<Director> directorOptional = directorRepository.findById(dto.getDirectorId());
-        Optional<Film> filmOptional = filmRepository.findById(dto.getFilmId());
-
-        if (directorOptional.isEmpty() || filmOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Film film = filmOptional.get();
-        film.getDirectors().add(directorOptional.get());
-
-        return ResponseEntity.ok(filmRepository.save(film));
+        Film film = filmService.addDirector(dto.getFilmId(), dto.getDirectorId());
+        return ResponseEntity.ok(film);
     }
 
     @GetMapping("/directors/{id}")
     @Operation(description = "Получить режисеров фильма", method = "getDirectors")
     public ResponseEntity<Set<Director>> getDirectors(@PathVariable Long id) {
 
-        Optional<Film> filmOptional = filmRepository.findById(id);
-        if (filmOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(filmOptional.get().getDirectors());
+        return ResponseEntity.ok(filmService.getDirectors(id));
     }
 
 }

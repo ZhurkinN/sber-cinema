@@ -7,15 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.webjars.NotFoundException;
 import ru.zhurkin.sbercinema.dto.request.ChangeUserRoleDTO;
-import ru.zhurkin.sbercinema.model.Role;
 import ru.zhurkin.sbercinema.model.User;
-import ru.zhurkin.sbercinema.repository.RoleRepository;
-import ru.zhurkin.sbercinema.repository.UserRepository;
-
-import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.CONFLICT;
+import ru.zhurkin.sbercinema.service.UserService;
 
 @Tag(name = "Пользователи",
         description = "Контроллер для работы с пользователями фильмотеки")
@@ -23,29 +18,25 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RequestMapping("/api/v1/users")
 public class UserController extends GenericController<User> {
 
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository,
-                          RoleRepository roleRepository) {
-        super(userRepository);
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        super(userService);
+        this.userService = userService;
     }
 
     @PostMapping(value = "/role")
     @Operation(description = "Изменить роль пользователя", method = "setRole")
     public ResponseEntity<User> setRole(@RequestBody ChangeUserRoleDTO dto) {
 
-        Optional<User> userOptional = userRepository.findById(dto.getUserId());
-        Optional<Role> role = roleRepository.findById(dto.getRoleId());
-        if (userOptional.isEmpty() || role.isEmpty()) {
-            return ResponseEntity.status(CONFLICT).build();
+        try {
+            User savedUser = userService.addRole(dto.getUserId(), dto.getRoleId());
+            return ResponseEntity.ok(savedUser);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound()
+                    .header("message", e.getMessage())
+                    .build();
         }
 
-        User user = userOptional.get();
-        user.setRole(role.get());
-
-        return ResponseEntity.ok(userRepository.save(user));
     }
 }
