@@ -1,39 +1,44 @@
 package ru.zhurkin.sbercinema.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.zhurkin.sbercinema.dto.GenericDTO;
 import ru.zhurkin.sbercinema.model.GenericEntity;
 import ru.zhurkin.sbercinema.service.GenericService;
+import ru.zhurkin.sbercinema.support.mapper.GenericMapper;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public abstract class GenericController<T extends GenericEntity> {
+public abstract class GenericController<T extends GenericEntity, N extends GenericDTO> {
 
     private final GenericService<T> genericService;
+    private final GenericMapper<T, N> genericMapper;
 
     @GetMapping
     @Operation(description = "Получить список всех записей", method = "getAll")
-    public ResponseEntity<List<T>> getAll() {
+    public ResponseEntity<List<N>> getAll() {
         List<T> entities = genericService.listAll();
-        return ResponseEntity.ok(entities);
+        return ResponseEntity.ok(genericMapper.toDtos(entities));
     }
 
     @GetMapping("/{id}")
     @Operation(description = "Получить запись по ID", method = "getById")
-    public ResponseEntity<T> getById(@PathVariable Long id) {
+    public ResponseEntity<N> getById(@PathVariable Long id) {
 
         T entity = genericService.getById(id);
-        return ResponseEntity.ok(entity);
+        return ResponseEntity.ok(genericMapper.toDto(entity));
     }
 
     @PostMapping
     @Operation(description = "Сохранить новую запись", method = "save")
-    public ResponseEntity<T> save(@RequestBody T entity) {
+    public ResponseEntity<N> save(@RequestBody N dto) {
 
-        return ResponseEntity.ok(genericService.create(entity));
+        T createdEntity = genericService.create(genericMapper.toEntity(dto));
+        return ResponseEntity.ok(genericMapper.toDto(createdEntity));
     }
 
     @DeleteMapping("/{id}")
@@ -46,9 +51,10 @@ public abstract class GenericController<T extends GenericEntity> {
 
     @PutMapping
     @Operation(description = "Изменить запись по id", method = "update")
-    public ResponseEntity<T> update(@RequestBody T entity,
+    public ResponseEntity<N> update(@RequestBody N dto,
                                     @RequestParam Long id) {
 
-        return ResponseEntity.ok(genericService.update(entity, id));
+        T updatedEntity = genericService.update(genericMapper.toEntity(dto), id);
+        return ResponseEntity.ok(genericMapper.toDto(updatedEntity));
     }
 }

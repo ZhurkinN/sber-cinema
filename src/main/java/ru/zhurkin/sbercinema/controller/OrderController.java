@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.zhurkin.sbercinema.dto.OrderDTO;
 import ru.zhurkin.sbercinema.model.Order;
 import ru.zhurkin.sbercinema.service.OrderService;
+import ru.zhurkin.sbercinema.support.mapper.impl.OrderMapper;
 
 import java.util.List;
 
@@ -16,13 +18,16 @@ import java.util.List;
         description = "Контроллер для работы по заказу фильмов пользователями")
 @RestController
 @RequestMapping("/api/v1/orders")
-public class OrderController extends GenericController<Order> {
+public class OrderController extends GenericController<Order, OrderDTO> {
 
     private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService) {
-        super(orderService);
+    public OrderController(OrderService orderService,
+                           OrderMapper orderMapper) {
+        super(orderService, orderMapper);
         this.orderService = orderService;
+        this.orderMapper = orderMapper;
     }
 
     @GetMapping("/{userId}")

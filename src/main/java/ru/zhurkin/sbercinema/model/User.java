@@ -8,6 +8,7 @@ import ru.zhurkin.sbercinema.model.enums.RoleEnum;
 
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -53,4 +54,26 @@ public class User extends GenericEntity {
     @JoinColumn(name = "role_id")
     private Role role = RoleEnum.VIEWER.getRole();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(login, user.login)
+                && Objects.equals(password, user.password)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(middleName, user.middleName)
+                && Objects.equals(birthDate, user.birthDate)
+                && Objects.equals(phone, user.phone)
+                && Objects.equals(address, user.address)
+                && Objects.equals(email, user.email)
+                && Objects.equals(orders, user.orders)
+                && Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, firstName, lastName,
+                middleName, birthDate, phone, address, email, orders, role);
+    }
 }

@@ -4,10 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.zhurkin.sbercinema.dto.DirectorDTO;
 import ru.zhurkin.sbercinema.dto.request.AddFilmDirectorDTO;
 import ru.zhurkin.sbercinema.model.Director;
 import ru.zhurkin.sbercinema.model.Film;
 import ru.zhurkin.sbercinema.service.DirectorService;
+import ru.zhurkin.sbercinema.support.mapper.impl.DirectorMapper;
 
 import java.util.Set;
 
@@ -15,13 +17,16 @@ import java.util.Set;
         description = "Контроллер для работы с режисерами")
 @RestController
 @RequestMapping("/api/v1/directors")
-public class DirectorController extends GenericController<Director> {
+public class DirectorController extends GenericController<Director, DirectorDTO> {
 
     private final DirectorService directorService;
+    private final DirectorMapper directorMapper;
 
-    public DirectorController(DirectorService directorService) {
-        super(directorService);
+    public DirectorController(DirectorService directorService,
+                              DirectorMapper directorMapper) {
+        super(directorService, directorMapper);
         this.directorService = directorService;
+        this.directorMapper = directorMapper;
     }
 
     @PostMapping("/addFilm")

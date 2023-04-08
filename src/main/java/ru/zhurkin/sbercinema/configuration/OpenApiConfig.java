@@ -3,11 +3,24 @@ package ru.zhurkin.sbercinema.configuration;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+
+    @Value("${openapi.title}")
+    private String title;
+
+    @Value("${openapi.description}")
+    private String description;
+
+    @Value("${openapi.name}")
+    private String name;
+
+    @Value("${openapi.email}")
+    private String email;
 
     /*
     Адрес интерфейса - http://localhost:8080/swagger-ui/index.html#
@@ -17,10 +30,10 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("Сервис фильмотеки")
-                        .description("Сервис, позволяющий купить или взять в аренду фильм")
+                        .title(title)
+                        .description(description)
                         .contact(new Contact()
-                                .name("Nikita")
-                                .email("zhurkin236@gmail.com")));
+                                .name(name)
+                                .email(email)));
     }
 }

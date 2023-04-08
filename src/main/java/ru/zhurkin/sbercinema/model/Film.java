@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -39,4 +40,20 @@ public class Film extends GenericEntity {
             cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Film film)) return false;
+        return Objects.equals(title, film.title)
+                && Objects.equals(premierYear, film.premierYear)
+                && Objects.equals(country, film.country)
+                && Objects.equals(genre, film.genre)
+                && Objects.equals(directors, film.directors)
+                && Objects.equals(orders, film.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, premierYear, country, genre, directors, orders);
+    }
 }

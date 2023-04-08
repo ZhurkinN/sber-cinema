@@ -1,4 +1,4 @@
-package ru.zhurkin.sbercinema.constants;
+package ru.zhurkin.sbercinema.support.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
