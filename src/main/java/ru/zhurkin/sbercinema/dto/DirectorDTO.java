@@ -17,5 +17,5 @@ public class DirectorDTO extends GenericDTO {
     private String lastName;
     private String middleName;
     private String position;
-    private Set<Long> filmIds;
+    private Set<Long> films;
 }

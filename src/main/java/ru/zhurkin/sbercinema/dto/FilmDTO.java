@@ -17,6 +17,6 @@ public class FilmDTO extends GenericDTO {
     private Integer premierYear;
     private String country;
     private String genre;
-    private Set<Long> directorIds;
-    private Set<Long> orderIds;
+    private Set<Long> directors;
+    private Set<Long> orders;
 }

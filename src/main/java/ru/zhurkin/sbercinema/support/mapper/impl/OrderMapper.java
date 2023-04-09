@@ -31,7 +31,7 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     public void setupMapper() {
         modelMapper.createTypeMap(Order.class, OrderDTO.class)
                 .addMappings(m -> m.skip(OrderDTO::setFilmId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(OrderDTO::setOwnerId)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(OrderDTO::setUserId)).setPostConverter(toDtoConverter());
 
         modelMapper.createTypeMap(OrderDTO.class, Order.class)
                 .addMappings(m -> m.skip(Order::setFilm)).setPostConverter(toEntityConverter())
@@ -43,14 +43,14 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
 
         destination.setFilm(filmRepository.findById(source.getFilmId())
                 .orElseThrow(() -> new NotFoundException(FILM_NOT_FOUND)));
-        destination.setOwner(userRepository.findById(source.getOwnerId())
+        destination.setOwner(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND)));
     }
 
     @Override
     protected void mapSpecificFields(Order source, OrderDTO destination) {
         destination.setFilmId(source.getFilm().getId());
-        destination.setOwnerId(source.getOwner().getId());
+        destination.setUserId(source.getOwner().getId());
     }
 
 }

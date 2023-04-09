@@ -23,6 +23,6 @@ public class UserDTO extends GenericDTO {
     private String phone;
     private String address;
     private String email;
-    private Set<Long> orderIds;
+    private Set<Long> orders;
     private Long roleId;
 }

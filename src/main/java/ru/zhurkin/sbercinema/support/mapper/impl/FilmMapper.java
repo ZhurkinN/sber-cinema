@@ -33,8 +33,8 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
     @PostConstruct
     public void setupMapper() {
         modelMapper.createTypeMap(Film.class, FilmDTO.class)
-                .addMappings(m -> m.skip(FilmDTO::setOrderIds)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(FilmDTO::setDirectorIds)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(FilmDTO::setOrders)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(FilmDTO::setDirectors)).setPostConverter(toDtoConverter());
 
         modelMapper.createTypeMap(FilmDTO.class, Film.class)
                 .addMappings(m -> m.skip(Film::setDirectors)).setPostConverter(toEntityConverter())
@@ -44,14 +44,14 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
     @Override
     protected void mapSpecificFields(FilmDTO source, Film destination) {
 
-        if (!Objects.isNull(source.getOrderIds())) {
-            destination.setOrders(new HashSet<>(orderRepository.findAllById(source.getOrderIds())));
+        if (!Objects.isNull(source.getOrders())) {
+            destination.setOrders(new HashSet<>(orderRepository.findAllById(source.getOrders())));
         } else {
             destination.setOrders(Collections.emptySet());
         }
 
-        if (!Objects.isNull(source.getDirectorIds())) {
-            destination.setDirectors(new HashSet<>(directorRepository.findAllById(source.getDirectorIds())));
+        if (!Objects.isNull(source.getDirectors())) {
+            destination.setDirectors(new HashSet<>(directorRepository.findAllById(source.getDirectors())));
         } else {
             destination.setDirectors(Collections.emptySet());
         }
@@ -60,8 +60,8 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
     @Override
     protected void mapSpecificFields(Film source, FilmDTO destination) {
 
-        destination.setOrderIds(getOrderIds(source));
-        destination.setDirectorIds(getDirectorIds(source));
+        destination.setOrders(getOrderIds(source));
+        destination.setDirectors(getDirectorIds(source));
     }
 
     private Set<Long> getOrderIds(Film entity) {

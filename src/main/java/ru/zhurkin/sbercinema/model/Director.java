@@ -28,8 +28,13 @@ public class Director extends GenericEntity {
     @Column(name = "position")
     private String position;
 
-    @ManyToMany(mappedBy = "directors",
+    @ManyToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
+    @JoinTable(name = "film_directors",
+            joinColumns = @JoinColumn(name = "director_id"),
+            foreignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"),
+            inverseJoinColumns = @JoinColumn(name = "film_id"),
+            inverseForeignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"))
     private Set<Film> films = new HashSet<>();
 
     @Override

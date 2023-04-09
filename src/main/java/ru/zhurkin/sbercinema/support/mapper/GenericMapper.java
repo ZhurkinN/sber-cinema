@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.zhurkin.sbercinema.dto.GenericDTO;
 import ru.zhurkin.sbercinema.model.GenericEntity;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +46,7 @@ public abstract class GenericMapper<E extends GenericEntity, D extends GenericDT
     }
 
     @Override
-    public List<D> toDtos(List<E> entities) {
+    public Collection<D> toDtos(Collection<E> entities) {
 
         return entities.stream()
                 .map(this::toDto)

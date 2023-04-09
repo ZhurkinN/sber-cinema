@@ -30,10 +30,11 @@ public class OrderController extends GenericController<Order, OrderDTO> {
         this.orderMapper = orderMapper;
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     @Operation(description = "Получить все заказы фильмов пользователя", method = "getUsersOrdersById")
-    public ResponseEntity<List<Order>> getUsersOrdersById(@PathVariable Long userId) {
+    public ResponseEntity<List<OrderDTO>> getUsersOrdersById(@PathVariable Long userId) {
 
-        return ResponseEntity.ok(orderService.getUsersOrders(userId));
+        List<Order> orders = orderService.getUsersOrders(userId);
+        return ResponseEntity.ok((List<OrderDTO>) orderMapper.toDtos(orders));
     }
 }

@@ -36,7 +36,8 @@ public class FilmService extends GenericService<Film> {
             throw new NotFoundException(RECORD_NOT_FOUND);
         }
         Film film = filmOptional.get();
-        film.getDirectors().add(directorOptional.get());
+        Director director = directorOptional.get();
+        film.getDirectors().add(director);
 
         return filmRepository.save(film);
     }

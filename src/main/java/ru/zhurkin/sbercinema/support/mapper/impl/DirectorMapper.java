@@ -29,7 +29,7 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     @PostConstruct
     public void setupMapper() {
         modelMapper.createTypeMap(Director.class, DirectorDTO.class)
-                .addMappings(m -> m.skip(DirectorDTO::setFilmIds)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(DirectorDTO::setFilms)).setPostConverter(toDtoConverter());
 
         modelMapper.createTypeMap(DirectorDTO.class, Director.class)
                 .addMappings(m -> m.skip(Director::setFilms)).setPostConverter(toEntityConverter());
@@ -38,8 +38,8 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     @Override
     protected void mapSpecificFields(DirectorDTO source, Director destination) {
 
-        if (!Objects.isNull(source.getFilmIds())) {
-            destination.setFilms(new HashSet<>(filmRepository.findAllById(source.getFilmIds())));
+        if (!Objects.isNull(source.getFilms())) {
+            destination.setFilms(new HashSet<>(filmRepository.findAllById(source.getFilms())));
         } else {
             destination.setFilms(Collections.emptySet());
         }
@@ -48,7 +48,7 @@ public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
     @Override
     protected void mapSpecificFields(Director source, DirectorDTO destination) {
 
-        destination.setFilmIds(getFilmIds(source));
+        destination.setFilms(getFilmIds(source));
     }
 
     private Set<Long> getFilmIds(Director entity) {

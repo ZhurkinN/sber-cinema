@@ -13,7 +13,7 @@ import java.sql.Date;
 @AllArgsConstructor
 public class OrderDTO extends GenericDTO {
 
-    private Long ownerId;
+    private Long userId;
     private Long filmId;
     private Date rentDate;
     private Long rentPeriod;

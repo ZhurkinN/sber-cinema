@@ -32,16 +32,15 @@ public class UserController extends GenericController<User, UserDTO> {
 
     @PostMapping(value = "/role")
     @Operation(description = "Изменить роль пользователя", method = "setRole")
-    public ResponseEntity<User> setRole(@RequestBody ChangeUserRoleDTO dto) {
+    public ResponseEntity<UserDTO> setRole(@RequestBody ChangeUserRoleDTO dto) {
 
         try {
             User savedUser = userService.addRole(dto.getUserId(), dto.getRoleId());
-            return ResponseEntity.ok(savedUser);
+            return ResponseEntity.ok(userMapper.toDto(savedUser));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound()
                     .header("message", e.getMessage())
                     .build();
         }
-
     }
 }

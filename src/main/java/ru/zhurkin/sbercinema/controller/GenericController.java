@@ -1,7 +1,6 @@
 package ru.zhurkin.sbercinema.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public abstract class GenericController<T extends GenericEntity, N extends Gener
     @Operation(description = "Получить список всех записей", method = "getAll")
     public ResponseEntity<List<N>> getAll() {
         List<T> entities = genericService.listAll();
-        return ResponseEntity.ok(genericMapper.toDtos(entities));
+        return ResponseEntity.ok((List<N>) genericMapper.toDtos(entities));
     }
 
     @GetMapping("/{id}")

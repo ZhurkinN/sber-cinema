@@ -37,7 +37,7 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
     public void setupMapper() {
 
         modelMapper.createTypeMap(User.class, UserDTO.class)
-                .addMappings(m -> m.skip(UserDTO::setOrderIds)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(UserDTO::setOrders)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(UserDTO::setRoleId)).setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(UserDTO.class, User.class)
                 .addMappings(m -> m.skip(User::setOrders)).setPostConverter(toEntityConverter())
@@ -47,8 +47,8 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
     @Override
     protected void mapSpecificFields(UserDTO source, User destination) {
 
-        if (!Objects.isNull(source.getOrderIds())) {
-            destination.setOrders(new HashSet<>(orderRepository.findAllById(source.getOrderIds())));
+        if (!Objects.isNull(source.getOrders())) {
+            destination.setOrders(new HashSet<>(orderRepository.findAllById(source.getOrders())));
         } else {
             destination.setOrders(Collections.emptySet());
         }
@@ -60,7 +60,7 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
     @Override
     protected void mapSpecificFields(User source, UserDTO destination) {
 
-        destination.setOrderIds(getIds(source));
+        destination.setOrders(getIds(source));
         destination.setRoleId(source.getRole().getId());
     }
 

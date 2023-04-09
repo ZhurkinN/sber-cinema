@@ -31,8 +31,10 @@ public class Film extends GenericEntity {
     @ManyToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @JoinTable(name = "film_directors",
-            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "director_id", referencedColumnName = "id", nullable = false))
+            joinColumns = @JoinColumn(name = "film_id"),
+            foreignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"),
+            inverseJoinColumns = @JoinColumn(name = "director_id"),
+            inverseForeignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"))
     private Set<Director> directors = new HashSet<>();
 
     @OneToMany(mappedBy = "film",
